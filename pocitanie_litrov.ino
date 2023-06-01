@@ -13,6 +13,7 @@ int buttonStatex;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 int litreCount = 0;
+bool countIncremented = false;
 
 void setup() {
   pinMode(ledPin, OUTPUT);
@@ -32,7 +33,7 @@ void loop() {
       digitalWrite(ledPin, HIGH);
     } else {
       digitalWrite(ledPin, LOW);
-    }
+    }//blikanie LED diody, je interval medzi jednodlivimi bliknutiami 
   }
 
   buttonState = digitalRead(buttonPin);
@@ -46,22 +47,21 @@ void loop() {
 
       if (buttonState == LOW) {
         pulse = true;
-        //itreCount++;
-        //erial.print("Počet litrov: ");
-        //erial.println(litreCount);
+        countIncremented = false;
       }
     }
-  }
+  }//toto je odskok pre tlacitko s pouzitim debouce 
   lastButtonState = buttonState;
 
   unsigned long currentMillis2 = millis();
   if (pulse == true) {
     digitalWrite(ledPinRed, HIGH);
 
-
+    if (!countIncremented) {
       litreCount++;
       Serial.print("Počet litrov: ");
       Serial.println(litreCount);
+      countIncremented = true;//pocitanie litrov
     }
 
     if (currentMillis2 - previousMillisPulse >= 1000) {
@@ -74,13 +74,12 @@ void loop() {
   } else {
     previousMillisPulse = currentMillis2;
   }
-  //ciatac pulzov
+
   bool puls = digitalRead(pulsePin);
-
-
   if (puls != lastpuls) {
     if (puls == HIGH) {
+   
+    }
   }
   lastpuls = puls;
-  
 }
